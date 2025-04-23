@@ -331,7 +331,7 @@ class ArtifactsLoss(nn.Module):
         self.loss_weight = loss_weight
         
     def forward(self, pred, pred_ema, target):
-        pixel_weight = get_refined_artifact_map(pred, pred_ema, target, self.kernel_size)
+        pixel_weight = get_refined_artifact_map(target, pred, pred_ema, self.kernel_size)
         arti_loss1 = torch.mul(pixel_weight, pred)
         arti_loss2 = torch.mul(pixel_weight, target)
         final_arti = F.l1_loss(arti_loss1, arti_loss2, reduction='none')
